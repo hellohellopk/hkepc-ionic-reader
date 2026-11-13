@@ -3,7 +3,17 @@
   publish = "dist"
 
 [build.environment]
-  NODE_VERSION = "18"
+  NODE_VERSION = "22"
+  # Send HKEPC requests through the same-origin rewrite below instead of calling
+  # proxy.hkepc.pro directly (its CORS policy only allows https://hkepc.pro)
+  HKEPC_PROXY_SERVER = "/hkepc-proxy"
+
+# Same-origin proxy to the HKEPC IR proxy server (avoids browser CORS blocks)
+[[redirects]]
+  from = "/hkepc-proxy/*"
+  to = "https://proxy.hkepc.pro/:splat"
+  status = 200
+  force = true
 
 # Single-page app: let the AngularJS router handle deep links
 [[redirects]]

@@ -2,7 +2,16 @@
  * Created by Gaplo917 on 9/1/2016.
  */
 // eslint-disable-next-line no-undef
-const PROXY_SERVER = IS_DEV ? 'http://0.0.0.0:1337' : 'https://proxy.hkepc.pro' // default proxy url (local development use 'http://0.0.0.0:1337/www.hkepc.com')
+// Optional build-time override (e.g. '/hkepc-proxy' on Netlify, where a same-origin rewrite forwards
+// requests to the proxy server so the browser does not hit CORS restrictions).
+// eslint-disable-next-line no-undef
+const PROXY_SERVER_OVERRIDE = typeof HKEPC_PROXY_SERVER === 'string' ? HKEPC_PROXY_SERVER : ''
+const DEFAULT_PROXY_SERVER = IS_DEV ? 'http://0.0.0.0:1337' : 'https://proxy.hkepc.pro' // default proxy url (local development use 'http://0.0.0.0:1337/www.hkepc.com')
+const PROXY_SERVER = !PROXY_SERVER_OVERRIDE
+  ? DEFAULT_PROXY_SERVER
+  : PROXY_SERVER_OVERRIDE.startsWith('/') && typeof window !== 'undefined' && window.location.protocol.startsWith('http')
+  ? `${window.location.origin}${PROXY_SERVER_OVERRIDE}`
+  : PROXY_SERVER_OVERRIDE
 const PROXY_URL = `${PROXY_SERVER}/www.hkepc.com`
 const BASE_URL = 'https://www.hkepc.com'
 const BASE_FORUM_URL = `${BASE_URL}/forum`

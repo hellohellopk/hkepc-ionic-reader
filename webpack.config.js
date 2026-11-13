@@ -37,6 +37,7 @@ const config = {
   plugins: [
     new webpack.DefinePlugin({
       IS_DEV: process.env.NODE_ENV === 'development',
+      HKEPC_PROXY_SERVER: JSON.stringify(process.env.HKEPC_PROXY_SERVER || ''),
       WEBVIEW_VERSION: String(fs.readFileSync(path.resolve(__dirname, 'www/version.json'))),
     }),
     new MiniCssExtractPlugin({
