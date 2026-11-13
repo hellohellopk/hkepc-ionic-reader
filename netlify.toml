@@ -1,0 +1,18 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "18"
+
+# Single-page app: let the AngularJS router handle deep links
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Always revalidate the service worker so updates roll out promptly
+[[headers]]
+  for = "/service-worker.js"
+  [headers.values]
+    Cache-Control = "no-cache"
